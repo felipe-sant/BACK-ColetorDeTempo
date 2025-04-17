@@ -1,9 +1,10 @@
 name: Configurar .env com Secrets
 
 on:
-  push:
+  pull_request:
     branches:
       - main
+      - develop
 
 jobs:
   build:
