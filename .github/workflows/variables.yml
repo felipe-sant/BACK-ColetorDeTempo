@@ -11,12 +11,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out code
+      - name: Check out repository
         uses: actions/checkout@v3
 
-      - name: Configurar .env com Secrets
-        run: |
-          echo "API_KEY=${{ secrets.API }}" >> .env
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
-      - name: Exibir conteúdo do .env (apenas para teste)
-        run: cat .env
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run script with secret
+        env:
+          API_SECRET: ${{ secrets.API }}
+        run: node -e "console.log('API_SECRET:', process.env.API_SECRET)"
