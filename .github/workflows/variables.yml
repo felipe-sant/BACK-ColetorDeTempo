@@ -17,3 +17,6 @@ jobs:
       - name: Configurar .env com Secrets
         run: |
           echo "API_KEY=${{ secrets.API }}" >> .env
+
+      - name: Exibir conteúdo do .env (apenas para teste)
+        run: cat .env
