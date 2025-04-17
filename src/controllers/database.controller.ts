@@ -11,7 +11,16 @@ class DatabaseController {
     // POST api/
     async create(req: Request, res: Response) {
         try {
-            const response = this.databaseService.create(req.body, req.query)
+            const { temperatura, umidade } = req.body
+            if (!temperatura || !umidade) {
+                throw new Error("Dados de temperatura e umidade são obrigatórios")
+            }
+
+            const response = await this.databaseService.insertClima({ temperatura, umidade })
+            if (!response) {
+                throw new Error("Erro ao inserir dados no banco de dados")
+            }
+
             res.status(201).json(response)
         } catch (error: any) {
             res.status(500).json({ message: error.message })
@@ -20,12 +29,7 @@ class DatabaseController {
 
     // GET api/
     async list(_: Request, res: Response) {
-        try {
-            const response = this.databaseService.list()
-            res.status(200).json(response)
-        } catch (error: any) {
-            res.status(500).json({ message: error.message })
-        }
+
     }
 }
 

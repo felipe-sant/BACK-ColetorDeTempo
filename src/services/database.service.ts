@@ -1,16 +1,11 @@
-class DatabaseService {
-    create(body: any, query: any) {
-        return {
-            message: "Criar de base de dados",
-            query: query,
-            body: body
-        };
-    }
+import Clima from "../model/clima.model";
+import DadosClimaticos from "../types/dadosClimaticos.type";
 
-    list() {
-        return {
-            message: "Listar de base de dados",
-        };
+class DatabaseService {
+    async insertClima(dadosClimaticos: DadosClimaticos) {
+        const novoClima = new Clima(dadosClimaticos)
+        const response = await novoClima.save()
+        return response
     }
 }
 

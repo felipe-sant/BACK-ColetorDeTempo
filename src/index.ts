@@ -1,23 +1,35 @@
 import express from 'express';
 import cors from 'cors';
+import mongoose from 'mongoose';
 import databaseRouters from './routes/database.routes';
 
-const app = express();
-const port = process.env.PORT || 3001
+require('dotenv').config();
 
-// app.use(cors());
-// app.use(express.json());
+console.clear()
 
-// app.use('/api', databaseRouters)
+// Iniciando Conexão com o MongoDB
 
-// app.listen(port, () => {
-//     console.log(`Server is running on http://localhost:${port}`);
-// });
+const MONGODB_URI = process.env.MONGODB_URI || "";
 
-const apiSecret = process.env.API_SECRET;
-
-if (!apiSecret) {
-  throw new Error("API secret is not defined");
+if (MONGODB_URI == "") {
+    console.error("MongoDB URI is not defined in the environment variables.");
+    process.exit(1);
 }
 
-console.log(`O segredo da API é: ${apiSecret}`);
+mongoose.connect(MONGODB_URI)
+    .then(() => console.log("MongoDB Connected!"))
+    .catch(err => console.log("Error: ", err))
+
+// Iniciando Rotas
+
+const port = process.env.PORT || 3001;
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+app.use('/api', databaseRouters)
+
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
