@@ -20,7 +20,9 @@
   "homepage": "https://github.com/felipe-sant/template-express#readme",
   "description": "",
   "dependencies": {
-    "express": "^4.17.1"
+    "dotenv": "^16.5.0",
+    "express": "^4.17.1",
+    "mongoose": "^8.13.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
