@@ -16,7 +16,10 @@ class DatabaseController {
                 throw new Error("Dados de temperatura e umidade são obrigatórios")
             }
 
-            const response = await this.databaseService.insertClima({ temperatura, umidade })
+            const date = new Date()
+            date.setHours(date.getHours() - 3)
+
+            const response = await this.databaseService.insertClima({ temperatura, umidade, timestamp: date })
             if (!response) {
                 throw new Error("Erro ao inserir dados no banco de dados")
             }
