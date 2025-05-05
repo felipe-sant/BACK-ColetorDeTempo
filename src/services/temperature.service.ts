@@ -1,5 +1,5 @@
 import Clima from "../model/clima.model";
-import TemperaturaFormatada from "../types/formatedTemperatura";
+import TemperaturaFormatada from "../types/TemperaturaFormatada";
 import Temperatura from "../types/Temperatura";
 
 class TemperatureService {
@@ -29,7 +29,7 @@ class TemperatureService {
                     data: {
                         maxTemperatura: collectedData.temperatura,
                         minTemperatura: collectedData.temperatura,
-                        mediaTemperatura: 0,
+                        mediaTemperatura: collectedData.temperatura,
                         numeroDeLeituras: 1
                     }
                 })

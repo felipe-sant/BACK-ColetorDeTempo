@@ -1,12 +1,12 @@
 import { Router } from 'express'
 import DatabaseController from '../controllers/database.controller'
-import TemperatureController from '../controllers/temperature.controller'
+import ClimaController from '../controllers/clima.controller'
 
 const router = Router()
 const databaseController = new DatabaseController()
-const temperatureController = new TemperatureController()
+const climaController = new ClimaController()
 
 router.post("/", databaseController.create.bind(databaseController))
-router.get("/temperature/daily", temperatureController.getDailyTemperature.bind(temperatureController))
+router.get("/daily", climaController.getDailyData.bind(climaController))
 
 export default router
