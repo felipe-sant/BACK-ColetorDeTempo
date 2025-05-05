@@ -1,7 +1,7 @@
 type DadosClimaticos = {
     temperatura: number;
     umidade: number;
-    timestamp?: string;
+    timestamp?: Date;
 }
 
 export default DadosClimaticos;
