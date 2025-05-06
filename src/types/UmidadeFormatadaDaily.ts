@@ -1,4 +1,4 @@
-type UmidadeFormatada = {
+type UmidadeFormatadaDaily = {
     hour: number
     data: {
         maxUmidade: number,
@@ -8,4 +8,4 @@ type UmidadeFormatada = {
     }
 }
 
-export default UmidadeFormatada
+export default UmidadeFormatadaDaily

@@ -1,4 +1,4 @@
-type TemperaturaFormatada = {
+type TemperaturaFormatadaDaily = {
     hour: number
     data: { 
         maxTemperatura: number;
@@ -8,4 +8,4 @@ type TemperaturaFormatada = {
     }
 }
 
-export default TemperaturaFormatada
+export default TemperaturaFormatadaDaily

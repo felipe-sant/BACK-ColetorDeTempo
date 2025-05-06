@@ -1,6 +1,8 @@
+import Semana from "../enum/Semana";
 import Clima from "../model/clima.model";
 import Umidade from "../types/Umidade";
-import UmidadeFormatada from "../types/UmidadeFormatada";
+import UmidadeFormatadaDaily from "../types/UmidadeFormatadaDaily";
+import UmidadeFormatadaWeek from "../types/UmidadeFormatadaWeek";
 
 class UmidadeService {
     async getUmidadeDataPerDaily(date: Date): Promise<Umidade[]> {
@@ -16,8 +18,21 @@ class UmidadeService {
         return response
     }
 
-    formatHumityData(data: Umidade[]) {
-        const dataDaily: UmidadeFormatada[] = []
+    async getUmidadeDataPerWeek(date: Date): Promise<Umidade[]> {
+        const endOfDay = date
+        const startOfDay = new Date(date)
+        startOfDay.setDate(startOfDay.getDate() - 6)
+        const response: any = await Clima.find({
+            timestamp: {
+                $gte: startOfDay,
+                $lte: endOfDay
+            }
+        }).sort({ timestamp: 1 })
+        return response
+    }
+
+    formatHumityDataDaily(data: Umidade[]) {
+        const dataDaily: UmidadeFormatadaDaily[] = []
 
         data.forEach((collectedData) => {
             const hour = collectedData.timestamp.getUTCHours()
@@ -40,10 +55,40 @@ class UmidadeService {
                 dataDaily[dataIndex].data.numeroDeLeituras = dataDaily[dataIndex].data.numeroDeLeituras + 1
             }
         })
-        
+
         dataDaily.forEach(e => e.data.mediaUmidade = e.data.mediaUmidade / e.data.numeroDeLeituras)
 
         return dataDaily
+    }
+
+    formatHumityDataWeek(data: Umidade[]) {
+        const dataWeek: UmidadeFormatadaWeek[] = []
+
+        data.forEach((collectedData) => {
+            const day = Semana[collectedData.timestamp.getDay()]
+
+            const dataIndex = dataWeek.findIndex((data) => data.day === day)
+            if (dataIndex === -1) {
+                dataWeek.push({
+                    day,
+                    data: {
+                        maxUmidade: collectedData.umidade,
+                        minUmidade: collectedData.umidade,
+                        mediaUmidade: collectedData.umidade,
+                        numeroDeLeituras: 1
+                    }
+                })
+            } else {
+                dataWeek[dataIndex].data.maxUmidade = Math.max(dataWeek[dataIndex].data.maxUmidade, collectedData.umidade)
+                dataWeek[dataIndex].data.minUmidade = Math.min(dataWeek[dataIndex].data.minUmidade, collectedData.umidade)
+                dataWeek[dataIndex].data.mediaUmidade = dataWeek[dataIndex].data.mediaUmidade + collectedData.umidade
+                dataWeek[dataIndex].data.numeroDeLeituras = dataWeek[dataIndex].data.numeroDeLeituras + 1
+            }
+        })
+
+        dataWeek.forEach(e => e.data.mediaUmidade = e.data.mediaUmidade / e.data.numeroDeLeituras)
+
+        return dataWeek
     }
 }
 
