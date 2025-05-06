@@ -21,7 +21,10 @@ class TemperatureService {
     async getTemperatureDatePerWeek(date: Date): Promise<Temperatura[]> {
         const endOfDay = date
         const startOfDay = new Date(date)
-        startOfDay.setDate(startOfDay.getDate() - 7)
+        startOfDay.setDate(startOfDay.getDate() - 6)
+        endOfDay.setDate(endOfDay.getDate() + 1)
+        console.log(startOfDay, Semana[startOfDay.getDay()])
+        console.log(endOfDay, Semana[endOfDay.getDay()])
         const response: any = await Clima.find({
             timestamp: {
                 $gte: startOfDay,

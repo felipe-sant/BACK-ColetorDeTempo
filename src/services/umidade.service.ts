@@ -22,6 +22,7 @@ class UmidadeService {
         const endOfDay = date
         const startOfDay = new Date(date)
         startOfDay.setDate(startOfDay.getDate() - 6)
+        endOfDay.setDate(endOfDay.getDate() + 1)
         const response: any = await Clima.find({
             timestamp: {
                 $gte: startOfDay,
