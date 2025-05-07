@@ -23,8 +23,6 @@ class TemperatureService {
         const startOfDay = new Date(date)
         startOfDay.setDate(startOfDay.getDate() - 6)
         endOfDay.setDate(endOfDay.getDate() + 1)
-        console.log(startOfDay, Semana[startOfDay.getDay()])
-        console.log(endOfDay, Semana[endOfDay.getDay()])
         const response: any = await Clima.find({
             timestamp: {
                 $gte: startOfDay,
@@ -68,7 +66,7 @@ class TemperatureService {
         const dataWeek: TemperaturaFormatadaWeek[] = []
 
         data.forEach((collectedData) => {
-            const day = Semana[collectedData.timestamp.getDay()]
+            const day = Semana[collectedData.timestamp.getUTCDay()]
 
             const dataIndex = dataWeek.findIndex((data) => data.day === day)
             if (dataIndex === -1) {

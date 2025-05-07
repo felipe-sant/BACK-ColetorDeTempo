@@ -1,11 +1,11 @@
 enum Semana {
+    domingo,
     segunda,
     terça,
     quarta,
     quinta,
     sexta,
-    sábado,
-    domingo
+    sábado
 }
 
 export default Semana
