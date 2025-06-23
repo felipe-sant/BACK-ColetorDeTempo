@@ -6,6 +6,7 @@ const router = Router()
 const databaseController = new DatabaseController()
 const climaController = new ClimaController()
 
+router.get("/", databaseController.getAll.bind(databaseController))
 router.post("/", databaseController.create.bind(databaseController))
 router.get("/daily", climaController.getDailyData.bind(climaController))
 router.get("/week", climaController.getWeekData.bind(climaController))
