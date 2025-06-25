@@ -1,5 +1,5 @@
 type Carbono = {
-    carbono: number;
+    co: number;
     timestamp: Date;
 }
 

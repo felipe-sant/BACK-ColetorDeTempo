@@ -41,16 +41,16 @@ class CarvonoService {
                 dataDaily.push({
                     hour,
                     data: {
-                        maxCarbono: collectedData.carbono,
-                        minCarbono: collectedData.carbono,
-                        mediaCarbono: collectedData.carbono,
+                        maxCarbono: collectedData.co,
+                        minCarbono: collectedData.co,
+                        mediaCarbono: collectedData.co,
                         numeroDeLeituras: 1
                     }
                 })
             } else {
-                dataDaily[dataIndex].data.maxCarbono = Math.max(dataDaily[dataIndex].data.maxCarbono, collectedData.carbono)
-                dataDaily[dataIndex].data.minCarbono = Math.min(dataDaily[dataIndex].data.minCarbono, collectedData.carbono)
-                dataDaily[dataIndex].data.mediaCarbono += collectedData.carbono
+                dataDaily[dataIndex].data.maxCarbono = Math.max(dataDaily[dataIndex].data.maxCarbono, collectedData.co)
+                dataDaily[dataIndex].data.minCarbono = Math.min(dataDaily[dataIndex].data.minCarbono, collectedData.co)
+                dataDaily[dataIndex].data.mediaCarbono += collectedData.co
                 dataDaily[dataIndex].data.numeroDeLeituras += 1
             }
         })
