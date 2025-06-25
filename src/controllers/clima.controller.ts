@@ -3,14 +3,22 @@ import TemperatureService from "../services/temperature.service";
 import Temperatura from "../types/Temperatura";
 import Umidade from "../types/Umidade";
 import UmidadeService from "../services/umidade.service";
+import CarbonoService from "../services/carbono.service";
+import Carbono from "../types/Carbono";
+import PressaoService from "../services/pressao.service";
+import Pressao from "../types/Pressao";
 
 class ClimaController {
     private temperatureService: TemperatureService
     private umidadeService: UmidadeService
+    private carbonoService: CarbonoService
+    private pressaoService: PressaoService
 
     constructor() {
         this.temperatureService = new TemperatureService()
         this.umidadeService = new UmidadeService()
+        this.carbonoService = new CarbonoService()
+        this.pressaoService = new PressaoService()
     }
 
     // GET api/daily
@@ -29,9 +37,19 @@ class ClimaController {
             if (!responseUmidade) { throw new Error("Erro ao buscar dados no banco de dados") }
             const formatedDatasUmid = this.umidadeService.formatHumityDataDaily(responseUmidade)
 
+            const responseCarbono: Carbono[] = await this.carbonoService.getCarbonoDataPerDaily(new Date(day))
+            if (!responseCarbono) { throw new Error("Erro ao buscar dados no banco de dados") }
+            const formatedDatasCarbono = this.carbonoService.formatCarbonoDataDaily(responseCarbono)
+
+            const responsePressao: Pressao[] = await this.pressaoService.getPressaoDataPerDaily(new Date(day))
+            if (!responsePressao) { throw new Error("Erro ao buscar dados no banco de dados") }
+            const formatedDatasPressao = this.pressaoService.formatPressaoDataDaily(responsePressao)
+
             res.status(200).json({
                 temperatura: formatedDatasTemp,
-                umidade: formatedDatasUmid
+                umidade: formatedDatasUmid,
+                carbono: formatedDatasCarbono,
+                pressao: formatedDatasPressao
             })
         } catch (error: any) {
             res.status(500).json({ message: error.message })
