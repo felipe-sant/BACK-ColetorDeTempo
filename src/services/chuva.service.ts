@@ -24,17 +24,27 @@ class ChuvaService {
 
             const dataIndex = dataDaily.findIndex((data) => data.hour === hour);
             if (dataIndex === -1) {
-                dataDaily.push({
-                    hour,
-                    data: {
-                        chuva: collectedData.chuva,
-                        numeroDeLeituras: 1
-                    }
-                });
+                if (collectedData.chuva) {
+                    dataDaily.push({
+                        hour: hour,
+                        data: {
+                            numeroDeLeituras: 1,
+                            chuva: 1
+                        }
+                    });
+                } else {
+                    dataDaily.push({
+                        hour: hour,
+                        data: {
+                            numeroDeLeituras: 1,
+                            chuva: 0
+                        }
+                    });
+                }
             } else {
                 dataDaily[dataIndex].data.numeroDeLeituras += 1;
                 if (collectedData.chuva) {
-                    dataDaily[dataIndex].data.chuva = true;
+                    dataDaily[dataIndex].data.chuva = 1;
                 }
             }
         });

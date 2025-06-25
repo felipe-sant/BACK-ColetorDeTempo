@@ -1,7 +1,7 @@
 type ChuvaFormatadaDaily = {
     hour: number;
     data: {
-        chuva: boolean;
+        chuva: number;
         numeroDeLeituras: number;
     };
 }
