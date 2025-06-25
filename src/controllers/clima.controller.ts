@@ -7,18 +7,21 @@ import CarbonoService from "../services/carbono.service";
 import Carbono from "../types/Carbono";
 import PressaoService from "../services/pressao.service";
 import Pressao from "../types/Pressao";
+import ChuvaService from "../services/chuva.service";
 
 class ClimaController {
     private temperatureService: TemperatureService
     private umidadeService: UmidadeService
     private carbonoService: CarbonoService
     private pressaoService: PressaoService
+    private chuvaService: ChuvaService
 
     constructor() {
         this.temperatureService = new TemperatureService()
         this.umidadeService = new UmidadeService()
         this.carbonoService = new CarbonoService()
         this.pressaoService = new PressaoService()
+        this.chuvaService = new ChuvaService()
     }
 
     // GET api/daily
@@ -45,11 +48,16 @@ class ClimaController {
             if (!responsePressao) { throw new Error("Erro ao buscar dados no banco de dados") }
             const formatedDatasPressao = this.pressaoService.formatPressaoDataDaily(responsePressao)
 
+            const responseChuva = await this.chuvaService.getChuvaDataPerDaily(new Date(day))
+            if (!responseChuva) { throw new Error("Erro ao buscar dados de chuva no banco de dados") }
+            const formatedDatasChuva = this.chuvaService.formatChuvaDataDaily(responseChuva)
+
             res.status(200).json({
                 temperatura: formatedDatasTemp,
                 umidade: formatedDatasUmid,
                 carbono: formatedDatasCarbono,
-                pressao: formatedDatasPressao
+                pressao: formatedDatasPressao,
+                chuva: formatedDatasChuva
             })
         } catch (error: any) {
             res.status(500).json({ message: error.message })
